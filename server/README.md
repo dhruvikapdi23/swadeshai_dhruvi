@@ -45,11 +45,21 @@ npm run dev
 | GET | `/users/:id/bookings` | `X-User-Id` | User's bookings |
 | DELETE | `/bookings/:id` | `X-User-Id` | Cancel booking |
 
-### Demo users (`X-User-Id`)
+### Users (stored in Firestore `users` collection)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/users` | List all users |
+| POST | `/users` | Create user `{ name, email }` |
+| GET | `/users/:id` | Get single user |
+
+Seeded demo users (`npm run seed`):
 
 - `user-1` — Alex Kumar
 - `user-2` — Priya Sharma
 - `user-3` — Rahul Mehta
+
+`X-User-Id` header is validated against Firestore on protected routes.
 
 ### Book a slot
 

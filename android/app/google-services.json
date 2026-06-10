@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "946717021702",
+    "project_id": "event-booking-system-ea7a6",
+    "storage_bucket": "event-booking-system-ea7a6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946717021702:android:d7b716363fa494352b5587",
+        "android_client_info": {
+          "package_name": "com.example.event_booking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFmLtYyAnsFMhrKXBf5GOluUnO3W2mdWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946717021702:android:c8d7189c18393e992b5587",
+        "android_client_info": {
+          "package_name": "com.example.swadesai_dhruvi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFmLtYyAnsFMhrKXBf5GOluUnO3W2mdWc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

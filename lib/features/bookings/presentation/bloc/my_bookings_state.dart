@@ -7,12 +7,29 @@ class MyBookingsState extends Equatable {
     this.status = ViewState.idle,
     this.bookings = const [],
     this.errorMessage,
+    this.cancellingId,
   });
 
   final ViewState status;
   final List<BookingEntity> bookings;
   final String? errorMessage;
+  final String? cancellingId;
+
+  MyBookingsState copyWith({
+    ViewState? status,
+    List<BookingEntity>? bookings,
+    String? errorMessage,
+    String? cancellingId,
+    bool clearCancelling = false,
+  }) {
+    return MyBookingsState(
+      status: status ?? this.status,
+      bookings: bookings ?? this.bookings,
+      errorMessage: errorMessage ?? this.errorMessage,
+      cancellingId: clearCancelling ? null : (cancellingId ?? this.cancellingId),
+    );
+  }
 
   @override
-  List<Object?> get props => [status, bookings, errorMessage];
+  List<Object?> get props => [status, bookings, errorMessage, cancellingId];
 }

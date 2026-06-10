@@ -1,4 +1,6 @@
 abstract final class ApiEndpoints {
+  static const authRegister = '/auth/register';
+  static const authLogin = '/auth/login';
   static const venues = '/venues';
   static String venueSlots(String venueId) => '/venues/$venueId/slots';
   static const bookings = '/bookings';

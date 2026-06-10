@@ -15,7 +15,9 @@ Monorepo for the QuickSlot hiring hackathon — sports slot booking (badminton /
 
 **Backend** is Express + Firestore. Booking concurrency is handled via Firestore transactions on a `slot_locks` collection (unique doc per venue+date+hour). One writer wins; the other gets HTTP 409.
 
-Auth is lightweight: hardcoded users + `X-User-Id` header (no JWT).
+Auth is lightweight: users stored in **Firestore** + `X-User-Id` header (no JWT).
+
+**Firebase project:** `event-booking-system-ea7a6`
 
 ## Setup — Backend
 
@@ -42,6 +44,9 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000   # Android emulator
 
 | Endpoint | Status codes |
 |----------|----------------|
+| `GET /users` | 200 |
+| `POST /users` | 201, 400, 409 |
+| `GET /users/:id` | 200, 404 |
 | `GET /venues` | 200 |
 | `GET /venues/:id/slots?date=` | 200, 400, 404 |
 | `POST /bookings` | 201, 400, 401, 404, **409** |
@@ -61,16 +66,23 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000   # Android emulator
 3. Widget test for booking conflict snackbar
 4. Dockerize the Node server
 
-## AI usage note
+## Firestore collections
 
-AI (Cursor) scaffolded the feature folder structure, Cubit boilerplate, and this Firestore transaction pattern. One fix caught manually: slot hour loop was `hour < 21` instead of `hour <= 21`, which dropped the 9–10 PM slot.
+| Collection | Contents |
+|------------|----------|
+| `users` | All users (seeded + created via API) |
+| `venues` | 5 sports venues |
+| `bookings` | Booking records |
+| `slot_locks` | Concurrency guard (one doc per booked slot) |
 
-## Demo users
+## Demo users (seeded)
 
 | X-User-Id | Name |
 |-----------|------|
 | user-1 | Alex Kumar |
 | user-2 | Priya Sharma |
 | user-3 | Rahul Mehta |
+
+Create more via `POST /users` or Flutter `AuthCubit.createUser()`.
 
 Use two different users on two phones to test the live double-booking scenario.
