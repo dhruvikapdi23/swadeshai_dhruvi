@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: quickslot-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: FIREBASE_PROJECT_ID
+        value: event-booking-system-ea7a6
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false
