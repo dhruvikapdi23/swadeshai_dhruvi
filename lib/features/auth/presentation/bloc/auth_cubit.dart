@@ -79,7 +79,9 @@ class AuthCubit extends Cubit<AuthState> {
       );
       await _persistUser(user);
       return true;
+
     } catch (error) {
+      print("EE :$error");
       emit(state.copyWith(
         isLoading: false,
         errorMessage: mapApiError(error, Injection.apiClient.baseUrl),

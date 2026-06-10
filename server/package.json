@@ -10,7 +10,7 @@
     "emulator": "firebase emulators:start --only firestore"
   },
   "engines": {
-    "node": "20.x"
+    "node": ">=18"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

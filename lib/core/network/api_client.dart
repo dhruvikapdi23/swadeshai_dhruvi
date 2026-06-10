@@ -86,7 +86,7 @@ String mapApiError(Object error, String baseUrl) {
     return 'Cannot reach server at $baseUrl.\n'
         'Android emulator: http://10.0.2.2:3000\n'
         'iOS simulator: http://localhost:3000\n'
-        'Physical device: use your computer\'s LAN IP.';
+        'Physical device: flutter run --dart-define=API_BASE_URL=http://YOUR_MAC_IP:3000';
   }
   return error.toString().replaceFirst('Exception: ', '');
 }

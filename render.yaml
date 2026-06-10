@@ -9,5 +9,5 @@ services:
     envVars:
       - key: FIREBASE_PROJECT_ID
         value: event-booking-system-ea7a6
-      - key: FIREBASE_SERVICE_ACCOUNT_BASE64
+      - key: FIREBASE_SERVICE_ACCOUNT
         sync: false

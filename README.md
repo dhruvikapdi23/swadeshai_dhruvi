@@ -2,6 +2,8 @@
 
 Monorepo for the QuickSlot hiring hackathon — sports slot booking (badminton / turf).
 
+**Demo walkthrough:** [Loom video](https://www.loom.com/share/493e2172adf74809be09a1f254d7fab8)
+
 ```
 /
 ├── lib/          # Flutter app (Clean Architecture + Cubit)
@@ -36,9 +38,13 @@ See [server/README.md](server/README.md) for Firestore emulator setup.
 
 ```bash
 flutter pub get
-flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000   # Android emulator
-# iOS simulator / desktop: http://localhost:3000
+flutter run                        # Android emulator / iOS simulator (defaults work)
+
+# Physical Android device on same Wi‑Fi as your Mac (auto-detects Mac IP):
+flutter run --dart-define=API_BASE_URL=http://$(ipconfig getifaddr en0):3000
 ```
+
+See the [demo walkthrough](https://www.loom.com/share/493e2172adf74809be09a1f254d7fab8) for a full setup and run explanation.
 
 ## API endpoints
 

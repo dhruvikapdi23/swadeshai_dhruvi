@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:swadesai_dhruvi/core/constants/api_constants.dart';
 import 'package:swadesai_dhruvi/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:swadesai_dhruvi/features/auth/presentation/bloc/auth_state.dart';
 import 'package:swadesai_dhruvi/features/auth/presentation/register_screen.dart';
@@ -61,11 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 8),
                     Text('Book sports slots in seconds',
                         style: TextStyle(color: Colors.grey.shade600)),
-                    const SizedBox(height: 4),
-                    Text(
-                      'API: ${ApiConstants.baseUrl}',
-                      style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
-                    ),
                     const SizedBox(height: 40),
                     TextFormField(
                       controller: _emailController,
