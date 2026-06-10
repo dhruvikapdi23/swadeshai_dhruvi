@@ -4,15 +4,19 @@ const { generateSlotsForDate, isValidDate } = require('../utils/slots');
 const VENUES_COLLECTION = 'venues';
 const SLOT_LOCKS_COLLECTION = 'slot_locks';
 
+function toVenueResponse(doc) {
+  return { id: doc.id, ...doc.data() };
+}
+
 async function listVenues() {
   const snapshot = await getDb().collection(VENUES_COLLECTION).get();
-  return snapshot.docs.map((doc) => doc.data());
+  return snapshot.docs.map(toVenueResponse);
 }
 
 async function getVenueById(venueId) {
   const doc = await getDb().collection(VENUES_COLLECTION).doc(venueId).get();
   if (!doc.exists) return null;
-  return doc.data();
+  return toVenueResponse(doc);
 }
 
 async function getSlotsForDate(venueId, date) {

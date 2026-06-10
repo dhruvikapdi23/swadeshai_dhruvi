@@ -33,7 +33,7 @@ class VenueDetailCubit extends Cubit<VenueDetailState> {
       final venue = await _getVenueUseCase(venueId);
       if (isClosed) return;
       emit(state.copyWith(venue: venue));
-      await loadSlots();
+      await loadSlots(silent: true);
     } catch (_) {
       if (isClosed) return;
       emit(state.copyWith(
@@ -51,12 +51,15 @@ class VenueDetailCubit extends Cubit<VenueDetailState> {
     await loadSlots();
   }
 
-  Future<void> loadSlots() async {
+  /// [silent] keeps current UI while refreshing — used for polling.
+  Future<void> loadSlots({bool silent = false}) async {
     final date = state.selectedDate;
     if (date == null) return;
 
     if (isClosed) return;
-    emit(state.copyWith(status: ViewState.loading, clearError: true));
+    if (!silent) {
+      emit(state.copyWith(status: ViewState.loading, clearError: true));
+    }
     try {
       final slots = await _getSlotsUseCase(venueId: venueId, date: date);
       if (isClosed) return;
@@ -66,17 +69,20 @@ class VenueDetailCubit extends Cubit<VenueDetailState> {
       ));
     } catch (_) {
       if (isClosed) return;
-      emit(state.copyWith(
-        status: ViewState.error,
-        errorMessage: 'Could not load slots.',
-      ));
+      if (!silent) {
+        emit(state.copyWith(
+          status: ViewState.error,
+          errorMessage: 'Could not load slots.',
+        ));
+      }
     }
   }
 
-  Future<void> bookSlot(SlotEntity slot) async {
-    if (slot.status != SlotStatus.available || state.isBooking) return;
+  /// Returns true when booking succeeded.
+  Future<bool> bookSlot(SlotEntity slot) async {
+    if (slot.status != SlotStatus.available || state.isBooking) return false;
     final date = state.selectedDate;
-    if (date == null) return;
+    if (date == null) return false;
 
     emit(state.copyWith(isBooking: true, clearFeedback: true));
     try {
@@ -86,25 +92,31 @@ class VenueDetailCubit extends Cubit<VenueDetailState> {
         slotId: slot.id,
         date: date,
       ));
-      await loadSlots();
-      if (isClosed) return;
+      await loadSlots(silent: true);
+      if (isClosed) return false;
       emit(state.copyWith(
         isBooking: false,
         bookingFeedback: 'Booking confirmed!',
       ));
+      return true;
     } catch (error) {
       final msg = error.toString().replaceFirst('Exception: ', '');
-      if (msg.toLowerCase().contains('taken') || msg.contains('409')) {
-        await loadSlots();
-        if (isClosed) return;
+      final isTaken = msg.toLowerCase().contains('taken') ||
+          msg.toLowerCase().contains('booked') ||
+          msg.contains('409');
+      if (isTaken) {
+        await loadSlots(silent: true);
+        if (isClosed) return false;
         emit(state.copyWith(
           isBooking: false,
-          bookingFeedback: 'This slot was just booked by someone else.',
+          bookingFeedback:
+              'This slot was just booked by someone else. Pick another slot.',
         ));
       } else {
-        if (isClosed) return;
+        if (isClosed) return false;
         emit(state.copyWith(isBooking: false, bookingFeedback: msg));
       }
+      return false;
     }
   }
 }

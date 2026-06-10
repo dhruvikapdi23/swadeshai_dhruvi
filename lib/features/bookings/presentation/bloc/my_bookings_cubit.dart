@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:swadesai_dhruvi/core/di/injection.dart';
+import 'package:swadesai_dhruvi/core/network/api_client.dart';
 import 'package:swadesai_dhruvi/core/view_state.dart';
 import 'package:swadesai_dhruvi/features/bookings/domain/use_cases/bookings_usecases.dart';
 import 'package:swadesai_dhruvi/features/bookings/presentation/bloc/my_bookings_state.dart';
@@ -26,11 +28,11 @@ class MyBookingsCubit extends Cubit<MyBookingsState> {
         status: bookings.isEmpty ? ViewState.empty : ViewState.success,
         bookings: bookings,
       ));
-    } catch (_) {
+    } catch (error) {
       if (isClosed) return;
-      emit(const MyBookingsState(
+      emit(MyBookingsState(
         status: ViewState.error,
-        errorMessage: 'Could not load bookings.',
+        errorMessage: mapApiError(error, Injection.apiClient.baseUrl),
       ));
     }
   }

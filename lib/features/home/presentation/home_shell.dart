@@ -33,6 +33,8 @@ class _HomeShellState extends State<HomeShell> {
     )..loadBookings();
   }
 
+  void refreshBookings() => _bookingsCubit?.loadBookings();
+
   @override
   void dispose() {
     _venuesCubit?.close();
@@ -57,13 +59,19 @@ class _HomeShellState extends State<HomeShell> {
         body: IndexedStack(
           index: _index,
           children: [
-            VenuesScreen(onLogout: () => context.read<AuthCubit>().logout()),
+            VenuesScreen(
+              onLogout: () => context.read<AuthCubit>().logout(),
+              onBookingChanged: refreshBookings,
+            ),
             const MyBookingsScreen(),
           ],
         ),
         bottomNavigationBar: NavigationBar(
           selectedIndex: _index,
-          onDestinationSelected: (i) => setState(() => _index = i),
+          onDestinationSelected: (i) {
+            setState(() => _index = i);
+            if (i == 1) bookingsCubit.loadBookings();
+          },
           destinations: const [
             NavigationDestination(icon: Icon(Icons.sports), label: 'Venues'),
             NavigationDestination(icon: Icon(Icons.bookmark), label: 'My Bookings'),

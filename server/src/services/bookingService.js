@@ -111,7 +111,10 @@ async function getUserBookings(userId) {
     .where('userId', '==', userId)
     .get();
 
-  const bookings = snapshot.docs.map((doc) => doc.data());
+  const bookings = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
   bookings.sort((a, b) => new Date(b.slotStart) - new Date(a.slotStart));
   return bookings;
 }

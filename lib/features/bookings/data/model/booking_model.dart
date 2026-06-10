@@ -21,10 +21,10 @@ class BookingModel {
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     return BookingModel(
-      id: json['id'] as String,
-      userId: json['userId'] as String,
-      venueId: json['venueId'] as String,
-      slotId: json['slotId'] as String,
+      id: json['id'] as String? ?? '',
+      userId: json['userId'] as String? ?? '',
+      venueId: json['venueId'] as String? ?? '',
+      slotId: json['slotId'] as String? ?? '',
       slotStart: DateTime.parse(json['slotStart'] as String),
       slotEnd: DateTime.parse(json['slotEnd'] as String),
       venueName: json['venueName'] as String? ?? '',

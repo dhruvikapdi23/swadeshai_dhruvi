@@ -19,12 +19,12 @@ class VenueModel {
 
   factory VenueModel.fromJson(Map<String, dynamic> json) {
     return VenueModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      type: _parseType(json['type'] as String),
-      location: json['location'] as String,
-      description: json['description'] as String,
-      pricePerHour: json['pricePerHour'] as int,
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      type: _parseType(json['type'] as String? ?? ''),
+      location: json['location'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+      pricePerHour: (json['pricePerHour'] as num?)?.toInt() ?? 0,
     );
   }
 

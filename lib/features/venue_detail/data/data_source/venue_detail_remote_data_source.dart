@@ -52,7 +52,11 @@ class VenueDetailRemoteDataSource {
       },
     );
     if (response.statusCode == 409) {
-      throw Exception('Slot already taken');
+      final body = jsonDecode(response.body) as Map<String, dynamic>?;
+      throw Exception(
+        body?['error'] as String? ??
+            'This slot was just booked by someone else. Please pick another.',
+      );
     }
     if (response.statusCode != 201 && response.statusCode != 200) {
       throw Exception('Booking failed (${response.statusCode})');

@@ -9,9 +9,10 @@ import 'package:swadesai_dhruvi/features/venues/presentation/bloc/venues_state.d
 import 'package:swadesai_dhruvi/features/venues/presentation/widgets/venue_card.dart';
 
 class VenuesScreen extends StatelessWidget {
-  const VenuesScreen({super.key, this.onLogout});
+  const VenuesScreen({super.key, this.onLogout, this.onBookingChanged});
 
   final VoidCallback? onLogout;
+  final VoidCallback? onBookingChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +61,18 @@ class VenuesScreen extends StatelessWidget {
                       venue: venue,
                       onTap: () {
                         if (user == null) return;
-                        Navigator.of(context).push(
-                          MaterialPageRoute<void>(
+                        Navigator.of(context)
+                            .push<bool>(
+                          MaterialPageRoute<bool>(
                             builder: (_) => VenueDetailScreen(
                               venueId: venue.id,
                               userId: user.id,
                             ),
                           ),
-                        );
+                        )
+                            .then((booked) {
+                          if (booked == true) onBookingChanged?.call();
+                        });
                       },
                     );
                   },
