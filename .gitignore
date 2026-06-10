@@ -1,0 +1,16 @@
+# Flutter
+.dart_tool/
+.packages
+build/
+.pub-cache/
+.pub/
+*.iml
+.idea/
+android/local.properties
+
+# Server
+server/node_modules/
+server/.env
+server/serviceAccountKey.json
+server/firebase-debug.log
+server/firestore-debug.log
